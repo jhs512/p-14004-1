@@ -61,7 +61,11 @@ class MemberRepositoryImpl(
             .fetch()
     }
 
-    override fun findQByUsernameAndEitherPasswordOrNickname(username: String, password: String?, nickname: String?): List<Member> {
+    override fun findQByUsernameAndEitherPasswordOrNickname(
+        username: String,
+        password: String?,
+        nickname: String?
+    ): List<Member> {
         val member = QMember.member
 
         return queryFactory
@@ -73,6 +77,15 @@ class MemberRepositoryImpl(
                             .or(member.nickname.eq(nickname))
                     )
             )
+            .fetch()
+    }
+
+    override fun findQByNicknameContaining(nickname: String): List<Member> {
+        val member = QMember.member
+
+        return queryFactory
+            .selectFrom(member)
+            .where(member.nickname.contains(nickname))
             .fetch()
     }
 }
