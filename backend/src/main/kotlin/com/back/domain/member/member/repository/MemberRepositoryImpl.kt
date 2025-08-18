@@ -3,6 +3,9 @@ package com.back.domain.member.member.repository
 import com.back.domain.member.member.entity.Member
 import com.back.domain.member.member.entity.QMember
 import com.querydsl.jpa.impl.JPAQueryFactory
+import org.springframework.data.domain.Page
+import org.springframework.data.domain.PageImpl
+import org.springframework.data.domain.Pageable
 import org.springframework.stereotype.Repository
 
 @Repository
@@ -107,5 +110,24 @@ class MemberRepositoryImpl(
             .from(member)
             .where(member.nickname.contains(nickname))
             .fetchFirst() != null
+    }
+
+    override fun findQByNicknameContaining(nickname: String, pageable: Pageable): Page<Member> {
+        val member = QMember.member
+
+        val results = queryFactory
+            .selectFrom(member)
+            .where(member.nickname.contains(nickname))
+            .offset(pageable.offset)
+            .limit(pageable.pageSize.toLong())
+            .fetch()
+
+        val total = queryFactory
+            .select(member.count())
+            .from(member)
+            .where(member.nickname.contains(nickname))
+            .fetchOne() ?: 0L
+
+        return PageImpl(results, pageable, total)
     }
 }
