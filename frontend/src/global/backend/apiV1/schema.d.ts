@@ -320,6 +320,40 @@ export interface components {
             /** Format: int64 */
             all: number;
         };
+        PageMemberWithUsernameDto: {
+            /** Format: int32 */
+            totalPages: number;
+            /** Format: int64 */
+            totalElements: number;
+            first: boolean;
+            last: boolean;
+            /** Format: int32 */
+            size: number;
+            content: components["schemas"]["MemberWithUsernameDto"][];
+            /** Format: int32 */
+            number: number;
+            sort: components["schemas"]["SortObject"];
+            pageable: components["schemas"]["PageableObject"];
+            /** Format: int32 */
+            numberOfElements: number;
+            empty: boolean;
+        };
+        PageableObject: {
+            /** Format: int64 */
+            offset: number;
+            sort: components["schemas"]["SortObject"];
+            unpaged: boolean;
+            paged: boolean;
+            /** Format: int32 */
+            pageNumber: number;
+            /** Format: int32 */
+            pageSize: number;
+        };
+        SortObject: {
+            empty: boolean;
+            unsorted: boolean;
+            sorted: boolean;
+        };
     };
     responses: never;
     parameters: never;
@@ -796,7 +830,7 @@ export interface operations {
                     [name: string]: unknown;
                 };
                 content: {
-                    "application/json;charset=UTF-8": components["schemas"]["MemberWithUsernameDto"][];
+                    "application/json;charset=UTF-8": components["schemas"]["PageMemberWithUsernameDto"];
                 };
             };
             /** @description Bad Request */
