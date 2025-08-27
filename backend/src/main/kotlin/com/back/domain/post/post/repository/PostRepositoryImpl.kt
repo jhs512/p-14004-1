@@ -21,12 +21,12 @@ class PostRepositoryImpl(
             when (kwType) {
                 PostSearchKeywordType1.TITLE -> builder.and(post.title.containsIgnoreCase(kw))
                 PostSearchKeywordType1.CONTENT -> builder.and(post.body.content.containsIgnoreCase(kw))
-                PostSearchKeywordType1.AUTHOR_NICKNAME -> builder.and(post.author.nickname.containsIgnoreCase(kw))
+                PostSearchKeywordType1.AUTHOR_NAME -> builder.and(post.author.name.containsIgnoreCase(kw))
                 PostSearchKeywordType1.ALL ->
                     builder.and(
                         post.title.containsIgnoreCase(kw)
                             .or(post.body.content.containsIgnoreCase(kw))
-                            .or(post.author.nickname.containsIgnoreCase(kw))
+                            .or(post.author.name.containsIgnoreCase(kw))
                     )
             }
         }
@@ -38,7 +38,7 @@ class PostRepositoryImpl(
         QueryDslUtil.applySorting(query, pageable) { property ->
             when (property) {
                 "id" -> post.id
-                "authorNickname" -> post.author.nickname
+                "authorName" -> post.author.name
                 else -> null
             }
         }

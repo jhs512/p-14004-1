@@ -40,10 +40,10 @@ class PostRepositoryTest {
     }
 
     @Test
-    @DisplayName("findQPagedByKw, kwType=PostSearchKeywordType1.AUTHOR_NICKNAME")
+    @DisplayName("findQPagedByKw, kwType=PostSearchKeywordType1.AUTHOR_NAME")
     fun t2() {
         val postPage = postRepository.findQPagedByKw(
-            PostSearchKeywordType1.AUTHOR_NICKNAME,
+            PostSearchKeywordType1.AUTHOR_NAME,
             "유저",
             PageRequest.of(
                 0,
@@ -56,7 +56,7 @@ class PostRepositoryTest {
 
         assertThat(content).isNotEmpty
         assertThat(content).allMatch { post ->
-            post.author.nickname.contains("유저", ignoreCase = true)
+            post.author.name.contains("유저", ignoreCase = true)
         }
     }
 }

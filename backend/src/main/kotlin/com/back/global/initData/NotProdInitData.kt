@@ -2,6 +2,7 @@ package com.back.global.initData
 
 import com.back.domain.member.member.service.MemberService
 import com.back.domain.post.post.service.PostService
+import com.back.domain.post.postUser.entity.PostUser
 import com.back.global.app.CustomConfigProperties
 import com.back.standard.extensions.getOrThrow
 import org.springframework.beans.factory.annotation.Autowired
@@ -70,14 +71,14 @@ class NotProdInitData(
         val memberUser2 = memberService.findByUsername("user2").getOrThrow()
         val memberUser3 = memberService.findByUsername("user3").getOrThrow()
 
-        val post1 = postService.write(memberUser1, "제목 1", "내용 1")
-        val post2 = postService.write(memberUser1, "제목 2", "내용 2")
-        val post3 = postService.write(memberUser2, "제목 3", "내용 3")
+        val post1 = postService.write(PostUser(memberUser1), "제목 1", "내용 1")
+        val post2 = postService.write(PostUser(memberUser1), "제목 2", "내용 2")
+        val post3 = postService.write(PostUser(memberUser2), "제목 3", "내용 3")
 
-        post1.addComment(memberUser1, "댓글 1-1")
-        post1.addComment(memberUser1, "댓글 1-2")
-        post1.addComment(memberUser2, "댓글 1-3")
-        post2.addComment(memberUser3, "댓글 2-1")
-        post2.addComment(memberUser3, "댓글 2-2")
+        post1.addComment(PostUser(memberUser1), "댓글 1-1")
+        post1.addComment(PostUser(memberUser1), "댓글 1-2")
+        post1.addComment(PostUser(memberUser2), "댓글 1-3")
+        post2.addComment(PostUser(memberUser3), "댓글 2-1")
+        post2.addComment(PostUser(memberUser3), "댓글 2-2")
     }
 }
