@@ -66,7 +66,7 @@ class ApiV1PostCommentController(
 
         postComment.checkActorCanDelete(actor)
 
-        postService.deleteComment(post, postComment)
+        post.deleteComment(postComment)
 
         return RsData(
             "200-1",
@@ -94,7 +94,7 @@ class ApiV1PostCommentController(
 
         postComment.checkActorCanModify(actor)
 
-        postService.modifyComment(postComment, reqBody.content)
+        postComment.modify(reqBody.content)
 
         return RsData(
             "200-1",
@@ -117,7 +117,7 @@ class ApiV1PostCommentController(
     ): RsData<PostCommentDto> {
         val post = postService.findById(postId).getOrThrow()
 
-        val postComment = postService.writeComment(actor, post, reqBody.content)
+        val postComment = post.addComment(actor, reqBody.content)
 
         postService.flush()
 

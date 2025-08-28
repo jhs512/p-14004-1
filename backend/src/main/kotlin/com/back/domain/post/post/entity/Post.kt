@@ -31,7 +31,7 @@ class Post(
     var content: String
         get() = body.content
         set(value) {
-            if ( body.content != value ) {
+            if (body.content != value) {
                 body.content = value
                 updateModifyDate()
             }
@@ -46,6 +46,8 @@ class Post(
         val postComment = PostComment(author, this, content)
         comments.add(postComment)
 
+        author.incrementPostCommentsCount()
+
         return postComment
     }
 
@@ -54,6 +56,8 @@ class Post(
     }
 
     fun deleteComment(postComment: PostComment): Boolean {
+        postComment.author.decrementPostCommentsCount()
+
         return comments.remove(postComment)
     }
 

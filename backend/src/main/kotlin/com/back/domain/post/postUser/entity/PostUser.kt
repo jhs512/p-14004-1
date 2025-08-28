@@ -13,6 +13,8 @@ class PostUser(
     id: Int,
     @NaturalId @field:Column(unique = true) val username: String,
     @Column(name = "nickname") var name: String,
+    @Column(columnDefinition = "INT DEFAULT 0") var postsCount: Int = 0,
+    @Column(columnDefinition = "INT DEFAULT 0") var postCommentsCount: Int = 0,
 ) : BaseTime(id) {
     constructor(member: Member) : this(
         member.id,
@@ -21,4 +23,12 @@ class PostUser(
     ) {
 
     }
+
+    fun incrementPostsCount() = postsCount++
+
+    fun decrementPostsCount() = postsCount--
+
+    fun incrementPostCommentsCount() = postCommentsCount++
+
+    fun decrementPostCommentsCount() = postCommentsCount--
 }
