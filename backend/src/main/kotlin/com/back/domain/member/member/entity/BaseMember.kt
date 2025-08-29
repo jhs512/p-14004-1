@@ -8,7 +8,7 @@ import org.springframework.security.core.GrantedAuthority
 import org.springframework.security.core.authority.SimpleGrantedAuthority
 
 @MappedSuperclass
-class BaseMember(
+abstract class BaseMember(
     id: Int,
     @NaturalId @field:Column(unique = true) val username: String,
     var profileImgUrl: String? = null,
@@ -39,4 +39,6 @@ class BaseMember(
 
     val authorities: Collection<GrantedAuthority>
         get() = authoritiesAsStringList.map { SimpleGrantedAuthority(it) }
+
+    abstract val name: String
 }

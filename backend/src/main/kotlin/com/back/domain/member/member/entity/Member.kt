@@ -13,6 +13,12 @@ class Member(
     @field:Column(unique = true) var apiKey: String,
     profileImgUrl: String? = null,
 ) : BaseMember(id, username, profileImgUrl) {
+    constructor(id: Int) : this(
+        id,
+        "",
+        ""
+    )
+
     // JPA와 상관없는 객체를 만들 때 사용, SecurityUser로부터 정보를 받아와서 생성할 때 사용
     constructor(id: Int, username: String, nickname: String) : this(
         id,
@@ -31,7 +37,7 @@ class Member(
         profileImgUrl
     )
 
-    val name: String
+    override val name: String
         get() = nickname
 
     fun modify(nickname: String, profileImgUrl: String?) {

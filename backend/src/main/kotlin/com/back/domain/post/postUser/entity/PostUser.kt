@@ -11,14 +11,16 @@ import jakarta.persistence.Table
 class PostUser(
     id: Int,
     username: String,
-    @Column(name = "nickname") var name: String,
+    @Column(name = "nickname") override var name: String,
+    profileImgUrl: String? = null,
     @Column(columnDefinition = "INT DEFAULT 0") var postsCount: Int = 0,
     @Column(columnDefinition = "INT DEFAULT 0") var postCommentsCount: Int = 0,
-) : BaseMember(id, username) {
+) : BaseMember(id, username, profileImgUrl) {
     constructor(member: Member) : this(
         member.id,
         member.username,
         member.nickname,
+        member.profileImgUrl
     ) {
 
     }
