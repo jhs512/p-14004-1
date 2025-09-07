@@ -22,26 +22,62 @@ class PostUser(
         lateinit var attrService: PostUserAttrService
     }
 
-    val postsCount: Int
-        get() = attrService.findBySubjectAndName(this, "postsCount")?.value?.toInt() ?: 0
+    @Transient
+    private var _postsCountAttr: PostUserAttr? = null
 
-    val postCommentsCount: Int
-        get() = attrService.findBySubjectAndName(this, "postCommentsCount")?.value?.toInt() ?: 0
+    @Transient
+    private var _postCommentsCountAttr: PostUserAttr? = null
+
+    val postsCountAttr: PostUserAttr
+        get() {
+            var v = _postsCountAttr
+            if (v == null) {
+                v = attrService.findBySubjectAndName(this, "postsCount")
+                    ?: PostUserAttr(this, "postsCount", "0")
+                _postsCountAttr = v
+            }
+            return v
+        }
+
+    val postCommentsCountAttr: PostUserAttr
+        get() {
+            var v = _postCommentsCountAttr
+            if (v == null) {
+                v = attrService.findBySubjectAndName(this, "postCommentsCount")
+                    ?: PostUserAttr(this, "postCommentsCount", "0")
+                _postCommentsCountAttr = v
+            }
+            return v
+        }
+
+    var postsCount: Int
+        get() = postsCountAttr.value.toInt()
+        set(value) {
+            postsCountAttr.value = value.toString()
+            attrService.save(postsCountAttr)
+        }
+
+    var postCommentsCount: Int
+        get() = postCommentsCountAttr.value.toInt()
+        set(value) {
+            postCommentsCountAttr.value = value.toString()
+            attrService.save(postCommentsCountAttr)
+        }
 
     fun incrementPostsCount() {
-        attrService.incrementPostsCount(this)
+        postsCount++
     }
 
     fun decrementPostsCount() {
-        attrService.decrementPostsCount(this)
+        postsCount--
     }
 
     fun incrementPostCommentsCount() {
-        attrService.incrementPostCommentsCount(this)
+        postCommentsCount++
     }
 
     fun decrementPostCommentsCount() {
-        attrService.decrementPostCommentsCount(this)
+        postCommentsCount--
     }
 
     constructor(member: Member) : this(

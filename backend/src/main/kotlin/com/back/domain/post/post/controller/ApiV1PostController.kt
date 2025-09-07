@@ -28,7 +28,7 @@ class ApiV1PostController(
     private val rq: Rq
 ) {
     val actor: PostUser
-        get() = PostUser(rq.actor)
+        get() = rq.postActor
 
     @GetMapping
     @Transactional(readOnly = true)
