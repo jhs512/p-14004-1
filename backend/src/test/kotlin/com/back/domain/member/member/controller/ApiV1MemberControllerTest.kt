@@ -10,6 +10,7 @@ import org.junit.jupiter.api.Test
 import org.springframework.beans.factory.annotation.Autowired
 import org.springframework.boot.test.autoconfigure.web.servlet.AutoConfigureMockMvc
 import org.springframework.boot.test.context.SpringBootTest
+import org.springframework.http.HttpHeaders
 import org.springframework.http.MediaType
 import org.springframework.security.test.context.support.WithUserDetails
 import org.springframework.test.context.ActiveProfiles
@@ -208,7 +209,7 @@ class ApiV1MemberControllerTest {
         val resultActions = mvc
             .perform(
                 get("/api/v1/members/me")
-                    .header("Authorization", "Bearer $actorApiKey wrong-access-token")
+                    .header(HttpHeaders.AUTHORIZATION, "Bearer $actorApiKey wrong-access-token")
             )
             .andDo(print())
 
@@ -223,7 +224,7 @@ class ApiV1MemberControllerTest {
             assertThat(accessTokenCookie.path).isEqualTo("/")
             assertThat(accessTokenCookie.getAttribute("HttpOnly")).isEqualTo("true")
 
-            val headerAuthorization = result.response.getHeader("Authorization")
+            val headerAuthorization = result.response.getHeader(HttpHeaders.AUTHORIZATION)
             assertThat(headerAuthorization).isNotBlank
 
             assertThat(headerAuthorization).isEqualTo(accessTokenCookie.value)
@@ -236,7 +237,7 @@ class ApiV1MemberControllerTest {
         val resultActions = mvc
             .perform(
                 get("/api/v1/members/me")
-                    .header("Authorization", "key")
+                    .header(HttpHeaders.AUTHORIZATION, "key")
             )
             .andDo(print())
 
